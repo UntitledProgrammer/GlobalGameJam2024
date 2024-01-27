@@ -6,9 +6,10 @@ namespace AlarmingLadder.GGJ2024
 {
     [System.Serializable] public enum CardType
     {
-        VOICE,
-        PHYSICAL,
-        CHALLENGE
+        VOICE = 0,
+        BODY = 1,
+        CHALLENGE = 2,
+        LENGTH = 3
     }
 
     [System.Serializable] public struct Card

@@ -7,8 +7,9 @@ namespace AlarmingLadder.GGJ2024
     [CreateAssetMenu(fileName = "Deck", menuName = "Jesters Gambit/Deck")] public class Deck : ScriptableObject
     {
         // Class Attributes:
-        private readonly int START_OF_DECK = 0;
-        private readonly Card DEFAULT_CARD = new Card();
+        private static readonly int START_OF_DECK = 0;
+        private static readonly Card DEFAULT_CARD = new Card();
+        private static readonly int RESERVE_CARDS_FROM_BACK = 1;
 
         // Instance Attributes:
         [SerializeField] private Card[] mCards = default;
@@ -24,7 +25,7 @@ namespace AlarmingLadder.GGJ2024
              * Randomly selects the idnex of a card between the first and second to last card.
              * The last card in a deck also always consided to be excluded from random selection to stop repetition.
              */
-            get => mCards.Length <= 2 ? START_OF_DECK : Random.Range(START_OF_DECK, mCards.Length - 1);
+            get => mCards.Length <= 2 ? START_OF_DECK : Random.Range(START_OF_DECK, mCards.Length - RESERVE_CARDS_FROM_BACK);
         }
 
         // Methods:
@@ -46,8 +47,8 @@ namespace AlarmingLadder.GGJ2024
             Card randomCard = mCards[randomIndex];
 
             // Swap the randomly chosen card with the card at the back of the deck.
-            mCards[randomIndex] = mCards[^1];
-            mCards[^1] = randomCard;
+            mCards[randomIndex] = mCards[^RESERVE_CARDS_FROM_BACK];
+            mCards[^RESERVE_CARDS_FROM_BACK] = randomCard;
 
             return randomCard;
         }
