@@ -39,26 +39,19 @@ namespace AlarmingLadder.GGJ2024
         [SerializeField] private Deck mBodyDeck;
         [SerializeField] private Deck mChallengeDeck;
         private UnityEngine.UI.Image mImage;
-        private Hands mCurrentHands;
 
         // Methods:
-        private Hands GetHands()
-        {
-            return new Hands(mVoiceDeck.GetRandom(), mBodyDeck.GetRandom(), mChallengeDeck.GetRandom());
-        }
-
         private void Start()
         {
             // Initialise attributes:
             mImage = GetComponent<UnityEngine.UI.Image>();
 
 #if UNITY_EDITOR
-            // Validate the each card deck.
+            // Validate each deck decks.
             UnityEngine.Assertions.Assert.IsNotNull(mBodyDeck, "[Warning] GameManager: The body card deck is null.");
             UnityEngine.Assertions.Assert.IsNotNull(mVoiceDeck, "[Warning] GameManager: The voice card deck is null.");
             UnityEngine.Assertions.Assert.IsNotNull(mChallengeDeck, "[Warning] GameManager: The challenge card deck is null.");
 
-            // Validate the image component.
             UnityEngine.Assertions.Assert.IsNotNull(mImage, "[Error] GameManager: The GameObject is missing an Image component.");
 #endif
         }
@@ -77,15 +70,20 @@ namespace AlarmingLadder.GGJ2024
             mImage.enabled = pIsActive;
         }
 
-        public void GetCard()
+        public void StartRound()
         {
             /**
-             * A card at random is pulled from the deck of cards and displayed on screen using the 'Image' component.
+             * Shuffles the challenge, body, and voice card decks and presents a randomly selected card
+             * from each deck, ready for a new round.
              */
-           // if(mDeck == null || mImage == null) { return; }
 
-            //mCurrentCard = mDeck.GetRandom();
-            //mImage.sprite = mCurrentCard.Sprite;
+            // Shuffle each deck.
+            mBodyDeck.Shuffle();
+            mChallengeDeck.Shuffle();
+            mVoiceDeck.Shuffle();
+
+            // Present the cards.
+            mImage.sprite = mChallengeDeck.ActiveCard;
         }
     }
 }
